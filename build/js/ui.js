@@ -1,0 +1,1 @@
+let hi=()=>{console.log("hi")};function no(){console.log("no!!!")}hi(),no();
