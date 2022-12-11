@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-cached": "^1.1.1",
     "gulp-sass": "^4.1.0"
   },
   "devDependencies": {
@@ -25,5 +27,8 @@
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2"
-  }
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
 }

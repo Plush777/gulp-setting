@@ -5,6 +5,8 @@ import sourcemaps from 'gulp-sourcemaps';
 import browserSync from 'browser-sync';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
+import cached from 'gulp-cached';
+import autoPrefixer from 'gulp-autoprefixer';
 
 var src = {
     html : ['html/**/*.html','html/*.html'],
@@ -35,6 +37,7 @@ function htmlComplie() {
             prefix: '@@',
             basepath: '@file'
         }))
+        .pipe(cached('html'))
         .pipe(gulp.dest(paths.html))
         .pipe(browserSync.reload({stream:true}));
 
@@ -43,8 +46,10 @@ function htmlComplie() {
 
 function scssCompile() {
     return gulp.src(src.css)
+        .pipe(cached('css'))
         .pipe(sourcemaps.init())
         .pipe(scss(scssOptions).on('error', scss.logError))
+        .pipe(autoPrefixer())
         .pipe(sourcemaps.write())
         // .pipe(rename({
         //     extname: '.min.css',
@@ -57,6 +62,7 @@ function scssCompile() {
 
 function concatJs() {
     return gulp.src(src.js)
+        .pipe(cached('js'))
         .pipe(uglify())
         .pipe(rename({
             extname: '.min.js',
@@ -69,6 +75,7 @@ function concatJs() {
 
 function imgs() {
     return gulp.src(src.imgs)
+        .pipe(cached('imgs'))
         .pipe(gulp.dest(paths.imgs))
         .pipe(browserSync.reload({stream:true}));
 }
@@ -78,13 +85,13 @@ function watchFiles(){
     gulp.watch(src.css, scssCompile);
     gulp.watch(src.js, concatJs);
     gulp.watch(src.imgs, imgs);
-
 }
 
 function brwSync(){
     browserSync.init({
         server:{
-            baseDir:'../build/'
+            baseDir:'../build/',
+            index:'html/index.html'
         }
     });
 }
